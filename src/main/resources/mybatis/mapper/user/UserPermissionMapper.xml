@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.user.dao.UserPermissionDao">
+    <resultMap id="userPermissionMap" type="userPermission">
+        <id column="s_id" property="id"/>
+        <result column="s_name" property="name"/>
+        <result column="s_bun" property="bun"/>
+        <result column="s_logo" property="logo"/>
+        <result column="s_desc" property="desc"/>
+        <result column="s_url" property="url"/>
+        <result column="s_type" property="type"/>
+        <result column="s_menu" property="menu"/>
+    </resultMap>
+    <sql id="allColoum">
+        p.s_id,
+        p.s_desc,
+        p.s_logo,
+        p.s_menu,
+        p.s_name,
+        p.s_bun,
+        p.s_url,
+        p.s_type
+    </sql>
+    <select id="getAllActionPermission" resultMap="userPermissionMap">
+        SELECT
+        <include refid="allColoum"/>
+        FROM tb_permission p
+        WHERE p.s_bun = 1;
+    </select>
+</mapper>

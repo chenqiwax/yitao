@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.book.dao.BookCategoryDao">
+    <resultMap id="bookCategoryMap" type="bookCategory">
+        <id property="id" column="l_id"/>
+        <result property="name" column="l_name"/>
+        <result property="pid" column="p_id"/>
+        <result property="desc" column="l_desc"/>
+        <result property="isdelete" column="isdelete"/>
+        <collection property="categoryList" column="l_id" select="getListCategoryBylid"/>
+    </resultMap>
+    <resultMap id="bookCategoryMapOne" type="bookCategory">
+        <id property="id" column="l_id"/>
+        <result property="name" column="l_name"/>
+        <result property="pid" column="p_id"/>
+        <result property="desc" column="l_desc"/>
+        <result property="isdelete" column="isdelete"/>
+    </resultMap>
+    <insert id="AddBookCategory">
+        INSERT INTO tb_category (l_name, p_id, l_desc) VALUES (#{name},#{pid},#{desc})
+    </insert>
+    <update id="updateBookcategory">
+        UPDATE tb_category
+        <set>
+            <if test="name!=null">
+                l_name=#{name},
+            </if>
+            <if test="pid!=null">
+                p_id=#{pid},
+            </if>
+            <if test="desc!=null">
+                l_desc=#{desc},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+        </set>
+        WHERE l_id=#{id}
+    </update>
+    <select id="getListCategory" resultMap="bookCategoryMap">
+        SELECT
+        c.l_id,
+        c.l_name,
+        c.p_id,
+        c.l_desc,
+        c.isdelete
+        FROM tb_category c
+        <where>
+            <if test="id!=null">
+                AND l_id=#{id}
+            </if>
+            <if test="name!=null">
+                AND l_name=#{name}
+            </if>
+            <if test="pid!=null">
+                AND p_id=#{pid}
+            </if>
+            <if test="desc!=null">
+                AND l_desc=#{desc}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete=#{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <select id="getListCategoryBylid" resultMap="bookCategoryMapOne">
+        SELECT
+            c.l_id,
+            c.l_name,
+            c.p_id,
+            c.l_desc,
+            c.isdelete
+        FROM tb_category c
+        WHERE c.p_id = #{0} AND c.isdelete=0
+    </select>
+
+    <select id="findBookCategoryById" parameterType="Integer" resultMap="bookCategoryMap">
+        SELECT
+            c.l_id,
+            c.l_name,
+            c.p_id,
+            c.l_desc,
+            c.isdelete
+        FROM tb_category c
+        WHERE c.l_id = #{0} AND c.isdelete=0
+    </select>
+
+    <select id="getListChildCategory" resultMap="bookCategoryMapOne">
+        SELECT
+            a2.l_id,
+            a2.l_name,
+            a2.p_id,
+            a2.l_desc,
+            a2.isdelete
+        FROM tb_category a1 INNER JOIN tb_category a2 ON a2.p_id = a1.l_id AND a2.isdelete=0 AND a1.isdelete=0
+    </select>
+
+</mapper>

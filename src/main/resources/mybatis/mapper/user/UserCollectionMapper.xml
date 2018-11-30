@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.et.yitao.user.dao.UserCollectionDao">
+
+    <!--用户收藏  :  zpf -->
+    <resultMap id="collectionBookMap" type="userCollection">
+        <id property="id" column="n_id"/>
+        <result property="uid" column="n_uid"/>
+        <result property="gid" column="n_gid"/>
+        <result property="isdelete" column="isdelete"/>
+        <collection property="book" column="n_gid" select="cn.et.yitao.book.dao.BookDao.findBookById"/>
+    </resultMap>
+
+    <insert id="addCollection">
+        INSERT INTO tb_collection (tb_collection.n_id,tb_collection.n_uid,tb_collection.n_gid,tb_collection.isdelete) VALUES(#{id},#{uid},#{gid},#{isdelete})
+    </insert>
+
+    <!--通用修改-->
+    <update id="updateUserCollection">
+        UPDATE  tb_collection
+        <set>
+            <if test="uid!=null">
+                n_uid=#{uid},
+            </if>
+            <if test="gid!=null">
+                n_gid=#{gid},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+        </set>
+        WHERE n_id = #{id}
+    </update>
+
+    <!--通用查询-->
+    <select id="getListUserCollection" resultMap="collectionBookMap">
+        SELECT
+            t.n_id,
+            t.n_uid,
+            t.n_gid,
+            t.isdelete
+        FROM
+        tb_collection t
+        <where>
+            <if test="id!=null">
+                AND n_id=#{id}
+            </if>
+            <if test="uid!=null">
+                AND n_uid=#{uid}
+            </if>
+            <if test="gid!=null">
+                AND n_gid=#{gid}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete=#{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <select id="findLikeUserCollection" resultMap="collectionBookMap">
+        SELECT
+            t.n_id,
+            t.n_uid,
+            t.n_gid,
+            t.isdelete
+        FROM tb_collection t
+        <where>
+            <if test="keyword!=null">
+                OR uid LIKE #{keyword}
+                OR gid LIKE #{keyword}
+                OR isdelete LIKE #{keyword}
+            </if>
+        </where>
+        <if test="startCode!=null and endCode!=null">
+            LIMIT #{startCode},#{endCode}
+        </if>
+    </select>
+
+
+</mapper>

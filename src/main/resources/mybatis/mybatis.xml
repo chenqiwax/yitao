@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <typeAliases>
+        <package name="cn.et.yitao.user.bean"/>
+        <package name="cn.et.yitao.book.bean"/>
+        <package name="cn.et.yitao.cart.bean"/>
+        <package name="cn.et.yitao.pay.bean"/>
+        <package name="cn.et.yitao.home.bean"/>
+        <package name="cn.et.yitao.browse.bean"/>
+        <package name="cn.et.yitao.content.bean"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mybatis/mapper/user/UserMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/SecurityCodeMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/UserCollectionMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/UserAddressMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/UserMessageMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/RoleMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/RolePermission.xml"/>
+        <mapper resource="mybatis/mapper/home/HomeMapper.xml"/>
+        <mapper resource="mybatis/mapper/book/BookCategoryMapper.xml"/>
+        <mapper resource="mybatis/mapper/book/BookCommentMapper.xml"/>
+        <mapper resource="mybatis/mapper/book/BookMapper.xml"/>
+        <mapper resource="mybatis/mapper/browser/UserCookiesMapper.xml"/>
+        <mapper resource="mybatis/mapper/pay/OrderMapper.xml"/>
+        <mapper resource="mybatis/mapper/pay/OrderitemMapper.xml"/>
+        <mapper resource="mybatis/mapper/browser/UserCookiesMapper.xml"/>
+        <mapper resource="mybatis/mapper/cart/UserCartMapper.xml"/>
+        <mapper resource="mybatis/mapper/system/ADsMapper.xml"/>
+        <mapper resource="mybatis/mapper/user/UserPermissionMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.user.dao.RolePermissionDao">
+    <resultMap id="rolePermMap" type="rolePermission">
+        <result property="eid" column="e_id"></result>
+        <result property="sid" column="s_id"></result>
+    </resultMap>
+    <insert id="addRolePerm" parameterType="rolePermission">
+        INSERT INTO tb_role_permission(e_id,s_id) VALUES (#{eid},#{sid})
+    </insert>
+    <select id="findRolePermByEid" parameterType="integer" resultMap="rolePermMap">
+        SELECT e_id,s_id FROM tb_role_permission
+    </select>
+    <delete id="removePerm" parameterType="integer">
+        DELETE FROM tb_role_permission WHERE e_id=#{eid}
+    </delete>
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="../assets/css/layui.css">
+		<link rel="stylesheet" href="../assets/css/view.css" />
+		<title></title>
+	</head>
+
+	<body class="layui-view-body">
+		<div style="padding: 20px; background-color: #F2F2F2;">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md8">
+					<div class="layui-card">
+						<div class="layui-card-header">查看角色</div>
+						<div class="layui-card-body">
+							<div class="demoTable">
+								搜索：
+								<div class="layui-inline">
+									<input class="layui-input" name="id" id="demoReload" autocomplete="off">
+								</div>
+								<button class="layui-btn" data-type="reload">搜索</button>
+							</div>
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>角色id</th>
+										<th>角色名</th>
+										<th>是否禁用</th>
+										<th>角色描述</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>2</td>
+										<td>amdin</td>
+										<td>是</td>
+										<td>市解放路是否健康</td>
+										<td>
+											<div>
+												<button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+												<button class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon"></i></button>
+												<button class="layui-btn layui-btn-warm layui-btn-sm">禁用</button>
+												<button class="layui-btn layui-btn-sm">启用</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../assets/layui.all.js" charset="utf-8"></script>
+		<script type="text/javascript">
+            function sendAjax(url, methodType, params, reFun) {
+                var xmlhttp = null;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        reFun(xmlhttp.responseText); // 调用这个函数将返回的数据当作参数传进这个函数
+                    }
+                }
+                if (methodType == "get" || methodType == "GET") { // 判断请求类型是get还是post
+                    xmlhttp.open("GET", url + "?" + params, true);
+                    xmlhttp.send();
+                } else {
+                    xmlhttp.open("POST", url, true);
+                    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                    xmlhttp.send(params);
+                }
+            }
+		</script>
+		<script type="text/javascript">
+		</script>
+	</body>
+
+</html>

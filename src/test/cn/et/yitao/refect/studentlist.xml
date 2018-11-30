@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<studentlist>
+	<students id="s1">
+		<ClassPath>cn.et.yitao.user.bean.Student</ClassPath>
+	</students>
+</studentlist>

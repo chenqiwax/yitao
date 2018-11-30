@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.et.yitao.user.dao.UserAddressDao">
+    <resultMap id="userAddressMap" type="userAddress">
+        <id property="id" column="a_id"/>
+        <result property="uid" column="a_uid"/>
+        <result property="province" column="a_province"/>
+        <result property="city" column="a_city"/>
+        <result property="district" column="a_district"/>
+        <result property="address" column="a_address"/>
+        <result property="name" column="a_name"/>
+        <result property="telephone" column="a_telphone"/>
+    </resultMap>
+    <!--新增收货地址-->
+    <insert id="addAddress" parameterType="cn.et.yitao.user.bean.UserAddress">
+        INSERT INTO tb_address (a_uid,a_province,a_city,a_district,a_address,a_name,a_telphone,isdelete,isdefault) VALUES
+        (#{uid},#{province},#{city},#{district},#{address},#{name},#{telephone},0,0)
+    </insert>
+
+    <!--通用的查询收货地址-->
+    <select id="getListUserAddress" resultMap="userAddressMap">
+        SELECT a_id,a_uid,a_name,a_telphone,a_province,a_city,a_district,a_address,isdefault
+        FROM tb_address
+        <where>
+            <if test="id!=null">
+                AND a_id=#{id}
+            </if>
+            <if test="uid!=null">
+                AND a_uid=#{uid}
+            </if>
+            <if test="name!=null">
+                AND a_name=#{name}
+            </if>
+            <if test="telephone!=null">
+                AND a_telphone=#{telephone}
+            </if>
+            <if test="province!=null">
+                AND a_province=#{province}
+            </if>
+            <if test="city!=null">
+                AND a_city=#{city}
+            </if>
+            <if test="district!=null">
+                AND a_district=#{district}
+            </if>
+            <if test="address!=null">
+                AND a_address=#{address}
+            </if>
+        </where>
+        AND isdelete=0;
+    </select>
+
+
+    <!--通用的更新收货地址-->
+    <update id="updateAddress">
+        UPDATE tb_address
+        <set>
+            <if test="province!=null">
+                a_province=#{province},
+            </if>
+            <if test="city!=null">
+                a_city=#{city},
+            </if>
+            <if test="district!=null">
+                a_district=#{district},
+            </if>
+            <if test="address!=null">
+                a_address=#{address},
+            </if>
+            <if test="name!=null">
+                a_name=#{name},
+            </if>
+            <if test="telephone!=null">
+                a_telphone=#{telephone},
+            </if>
+            <if test="isdefault!=null">
+                isdefault=#{isdefault}
+            </if>
+        </set>
+        WHERE a_id=#{id}
+    </update>
+
+    <!--逻辑删除收货地址-->
+    <delete id="deleteUserAddress" parameterType="int">
+        UPDATE tb_address
+        SET isdelete=1
+        WHERE a_id=#{id}
+    </delete>
+
+</mapper>

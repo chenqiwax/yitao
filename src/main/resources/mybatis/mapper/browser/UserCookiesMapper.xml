@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.browse.dao.UserCookiesDao">
+
+    <!-- 浏览记录-->
+    <resultMap id="UserCookiesMap" type="userCookies">
+        <id property="id" column="k_id"/>
+        <result property="uid" column="k_uid"/>
+        <result property="gid" column="k_gid"/>
+        <result property="count" column="k_count"/>
+        <association property="user" javaType="cn.et.yitao.user.bean.User"/>
+
+        <association property="book" javaType="cn.et.yitao.book.bean.Book">
+            <id property="id" column="g_id"/>
+            <result property="name" column="g_name"/>
+            <result property="price" column="g_price"/>
+            <result property="imgurl" column="g_imgurl"/>
+        </association>
+    </resultMap>
+
+    <!-- 添加浏览记录 Fangcaixia -->
+
+        <insert id="addUserCookies">
+            INSERT INTO tb_cookies (k_uid, k_gid) VALUES (#{uid},#{gid})
+        </insert>
+
+    <!-- 浏览记录查询 通用 -->
+
+        <select id="selectUserCookies" resultMap="UserCookiesMap">
+            SELECT
+                c.k_id,
+                c.k_uid,
+                c.k_gid,
+                c.k_count
+                FROM tb_cookies c
+                <where>
+                    <if test="id!=null">
+                        AND k_id=#{id}
+                    </if>
+                    <if test="uid!=null">
+                        AND k_uid=#{uid}
+                    </if>
+                    <if test="gid!=null">
+                        AND k_gid=#{gid}
+                    </if>
+                    <if test="count!=null">
+                        AND k_count=#{count}
+                    </if>
+                </where>
+        </select>
+
+    <!-- -->
+
+        <!-- 浏览记录更新 通用-->
+        <update id="updateUserCookies">
+            UPDATE tb_cookies
+            <set>
+                <if test="uid!=null">
+                    k_uid=#{uid},
+                </if>
+                <if test="gid!=null">
+                    k_gid=#{gid},
+                </if>
+                <if test="count!=null">
+                    k_count=#{count},
+                </if>
+            </set>
+            WHERE k_id=#{id}
+        </update>
+
+
+
+    <!-- 根据浏览记录书籍的id查询书籍的图片,名称,价格-->
+
+    <select id="findUserCookiesByUid" resultMap="UserCookiesMap">
+        SELECT
+        c.*,
+        g.g_id,
+        g.g_imgurl,
+        g.g_name,
+        g.g_price
+        FROM tb_cookies c LEFT JOIN tb_goods g ON c.k_gid=g.g_id WHERE c.k_uid=#{uid}
+    </select>
+
+    <select id="findUserCookiesByGid" parameterType="Integer" resultMap="UserCookiesMap">
+        SELECT
+          c.k_id,
+          c.k_uid,
+          c.k_gid,
+          c.k_count
+        FROM tb_cookies c
+        WHERE c.k_gid=#{gid} AND c.k_uid=#{uid}
+    </select>
+
+    <update id="editUserCookies" parameterType="userCookies" >
+        UPDATE
+          tb_cookies
+        SET
+        k_count=#{count}
+        WHERE k_uid=#{uid} AND k_gid=#{gid}
+    </update>
+</mapper>

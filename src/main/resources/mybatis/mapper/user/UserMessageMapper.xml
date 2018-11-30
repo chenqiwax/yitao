@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.user.dao.UserMessageDao">
+
+    <resultMap id="messageMap" type="userMessage">
+        <id property="id" column="m_id"/>
+        <result property="uid" column="m_uid"/>
+        <result property="dateTime" column="m_datetime"/>
+        <result property="content" column="m_content"/>
+        <result property="status" column="m_status"/>
+        <result property="orderId" column="m_oid"/>
+        <association property="user" column="m_uid" select="cn.et.yitao.user.dao.UserDao.findUserByUserId"/>
+    </resultMap>
+    <select id="getListUserMessage" resultMap="messageMap">
+        SELECT
+            m_id,
+            m_uid,
+            m_datetime,
+            m_content,
+            m_status,
+            m_oid
+        FROM tb_message
+        <where>
+            <if test="id!=null">
+                AND m_id=#{id}
+            </if>
+            <if test="uid!=null">
+                AND m_uid=#{uid}
+            </if>
+            <if test="dateTime!=null">
+                AND m_datetime=#{dateTime}
+            </if>
+            <if test="content!=null">
+                AND m_content=#{content}
+            </if>
+            <if test="status!=null">
+                AND m_status=#{status}
+            </if>
+            <if test="orderId!=null">
+                AND m_oid=#{orderId}
+            </if>
+        </where>
+    </select>
+    <select id="findALLMsgByUid" parameterType="String" resultMap="messageMap">
+        SELECT
+            m_id,
+            m_uid,
+            m_datetime,
+            m_content,
+            m_status,
+            m_oid
+        FROM tb_message m
+        WHERE m_uid=#{0} ORDER BY m.m_datetime DESC
+    </select>
+    <select id="findUnreadMsgCountByUid" parameterType="String" resultType="int">
+        SELECT count(m_id) FROM tb_message WHERE m_uid=#{uid} AND m_status=0
+    </select>
+    <update id="editMsgStatus" parameterType="Integer">
+        UPDATE tb_message SET m_status=1 WHERE m_id=#{mid}
+    </update>
+    <insert id="addMsg" parameterType="userMessage">
+        INSERT INTO tb_message(m_uid,m_datetime,m_content,m_status,m_oid) VALUES (#{uid},#{dateTime},#{content},#{status},#{orderId})
+    </insert>
+    <delete id="removeMsgByMid" parameterType="Integer">
+        DELETE FROM tb_message WHERE m_id=#{mid}
+    </delete>
+</mapper>

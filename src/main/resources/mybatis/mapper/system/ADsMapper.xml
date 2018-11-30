@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.home.dao.ADsDao">
+    <resultMap id="aDsmap" type="advertising">
+        <id property="id" column="d_id"/>
+        <result property="headline" column="d_headline"/>
+        <result property="subhead" column="d_subhead"/>
+        <result property="url" column="d_url"/>
+        <result property="link" column="d_link"/>
+        <result property="isdelete" column="isdelete"/>
+        <result property="createDate" column="createDate"/>
+    </resultMap>
+    <sql id="allColumn">
+         d_id,d_headline,d_subhead,d_url,d_link,createDate,isdelete
+    </sql>
+    <insert id="addAds">
+        INSERT INTO tb_ads (d_headline, d_subhead, d_url, d_link,createDate)
+                    VALUES (#{headline},#{subhead},#{url},#{link},#{createDate})
+    </insert>
+    <update id="updateAds">
+        UPDATE tb_ads
+        <set>
+            <if test="headline!=null">
+                d_headline=#{headline},
+            </if>
+            <if test="subhead!=null">
+                d_subhead=#{subhead},
+            </if>
+            <if test="url!=null">
+                d_url=#{url},
+            </if>
+            <if test="link!=null">
+                d_link=#{link},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+            <if test="createDate!=null">
+                createDate=#{createDate},
+            </if>
+        </set>
+        WHERE d_id=#{id}
+    </update>
+    <select id="findAllADs" resultMap="aDsmap">
+        SELECT <include refid="allColumn"/>
+            FROM tb_ads where isdelete = 0
+    </select>
+    <select id="getListAds" resultMap="aDsmap">
+        SELECT <include refid="allColumn"/> FROM tb_ads
+        <where>
+            <if test="id!=null">
+                AND d_id=#{id}
+            </if>
+            <if test="headline!=null">
+                AND d_headline=#{headline}
+            </if>
+            <if test="subhead!=null">
+                AND d_subhead=#{subhead}
+            </if>
+            <if test="url!=null">
+               AND d_url=#{url}
+            </if>
+            <if test="link!=null">
+               AND d_link=#{link}
+            </if>
+            <if test="isdelete!=null">
+               AND isdelete=#{isdelete}
+            </if>
+            <if test="createDate!=null">
+               AND createDate=#{createDate}
+            </if>
+        </where>
+    </select>
+    <select id="getListDimAds" resultMap="aDsmap">
+        SELECT <include refid="allColumn"/> FROM tb_ads
+        <where>
+            <if test="id!=null">
+                AND d_id LIKE '%${id}%'
+            </if>
+            <if test="headline!=null and headline!=''">
+                AND d_headline LIKE '%${headline}%'
+            </if>
+            <if test="subhead!=null and subhead!=''">
+                AND d_subhead LIKE '%${subhead}%'
+            </if>
+            <if test="url!=null and url!=''">
+                AND d_url LIKE '%${url}%'
+            </if>
+            <if test="link!=null and link!=''">
+                AND d_link LIKE '%${link}%'
+            </if>
+            <if test="createDate!=null">
+                AND createDate = #{createDate}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete LIKE '%${isdelete}%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

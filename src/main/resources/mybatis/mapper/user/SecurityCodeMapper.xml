@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.et.yitao.user.dao.SecurityCodeDao">
+
+    <resultMap id="securityCodeMap" type="securityCode">
+        <id property="id" column="y_id"/>
+        <result property="code" column="y_code"/>
+        <result property="uid" column="y_uid"/>
+        <result property="time" column="y_time"/>
+        <result property="type" column="y_type"/>
+        <result property="tel" column="y_tel"/>
+        <result property="emil" column="y_email"/>
+    </resultMap>
+
+    <insert id="addSecurityCode" parameterType="securityCode">
+        INSERT INTO tb_securitycode (y_code,y_uid,y_time,y_type,y_tel) VALUES
+                  (#{code},#{uid},#{time},#{type},#{tel})
+    </insert>
+
+    <!-- 添加验证码表 libinhe-->
+    <insert id="addcode" parameterType="securityCode">
+        INSERT INTO tb_securitycode(y_code,y_uid,y_time,y_type,y_tel)
+        VALUES (#{code},#{uid},#{time},#{type},#{tel})
+    </insert>
+
+    <!-- 添加验证码表 libinhe-->
+    <insert id="addemilcode" parameterType="securityCode">
+        INSERT INTO tb_securitycode(y_code,y_uid,y_time,y_type,y_email)
+        VALUES (#{code},#{uid},#{time},#{type},#{emil})
+    </insert>
+
+    <!-- 查询手机号和最新的验证码 libinhe-->
+    <select id="selectcode" parameterType="String" resultMap="securityCodeMap">
+        SELECT * FROM tb_securitycode WHERE y_tel = #{name} ORDER BY y_time DESC LIMIT 1;
+    </select>
+
+    <!-- 查询邮箱和最新的验证码 libinhe-->
+    <select id="selectemilcode" parameterType="String" resultMap="securityCodeMap">
+        SELECT * FROM tb_securitycode WHERE y_email = #{emilname} ORDER BY y_time DESC LIMIT 1;
+    </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.home.dao.HomeDao">
+
+    <resultMap id="BookMap" type="book">
+        <id property="id" column="g_id"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="imgurl" column="g_imgurl"/>
+        <result property="author" column="g_author"/>
+        <result property="press" column="g_press"/>
+        <result property="sales" column="g_sales"/>
+        <result property="lid" column="g_lid"/>
+        <result property="stock" column="g_stock"/>
+        <result property="publishDate" column="g_publishDate"/>
+        <result property="pageNum" column="g_pageNum"/>
+        <result property="wordsNum" column="g_wordsNum"/>
+        <result property="paper" column="g_paper"/>
+        <result property="details" column="g_details"/>
+        <result property="desc" column="g_desc"/>
+        <result property="isdelete" column="isdelete"/>
+    </resultMap>
+
+    <sql id="allCloum">
+            g.g_id,
+            g.g_author,
+            g.g_name,
+            g.g_imgurl,
+            g.g_press,
+            g.g_sales,
+            g.g_lid,
+            g.g_stock,
+            g.g_publishDate,
+            g.g_pageNum,
+            g.g_wordsNum,
+            g.g_paper,
+            g.g_details,
+            g.g_desc,
+            g.isdelete,
+            g.g_price
+    </sql>
+    <select id="getHotBook" resultMap="BookMap">
+        SELECT
+           <include refid="allCloum"/>
+        FROM tb_goods g WHERE g.isdelete=0
+        ORDER BY g.g_sales DESC
+        LIMIT 0, 8
+    </select>
+
+    <select id="getUserFavorite" resultType="map">
+        SELECT g.g_lid AS lid,c.k_uid AS uid,SUM(c.k_count) AS result FROM tb_cookies c
+                  INNER JOIN tb_goods g ON c.k_gid = g_id AND g.isdelete=0 WHERE c.k_uid = #{uid}
+                    GROUP BY g.g_lid
+                    ORDER BY result
+                    DESC LIMIT 0,1
+    </select>
+
+    <select id="getretrieveListBook" resultMap="BookMap">
+        SELECT * FROM tb_goods g INNER JOIN tb_category c ON g.g_lid=c.l_id AND g.isdelete=0
+        WHERE CONCAT(g.g_name,g.g_author,g.g_press,g.g_paper,g.g_desc,c.l_name) like "%${keyword}%" LIMIT  #{pageNum},#{pagesize};
+    </select>
+
+    <select id="getBookCount" resultType="int">
+        SELECT count(*) FROM tb_goods g INNER JOIN tb_category c ON g.g_lid=c.l_id AND g.isdelete=0
+        WHERE CONCAT(g.g_name,g.g_author,g.g_press,g.g_paper,g.g_desc,c.l_name) like "%${keyword}%";
+    </select>
+
+    <select id="getclassifBook" resultMap="BookMap">
+      SELECT * FROM tb_goods g JOIN tb_category c ON g_lid = c.l_id AND g.isdelete=0 WHERE c.l_name = #{classif} LIMIT #{pageNum},#{pagesize};
+    </select>
+    <select id="getListBookByClassName" resultMap="BookMap">
+        SELECT g.* FROM tb_category c INNER JOIN tb_category d ON c.l_id=d.p_id AND c.l_name=#{0} INNER JOIN tb_goods g ON g.g_lid=d.l_id AND g.isdelete=0 ORDER BY g.g_sales DESC LIMIT 0,7
+    </select>
+</mapper>

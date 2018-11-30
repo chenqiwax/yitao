@@ -1,0 +1,72 @@
+#service-2017 .slogen .item i {
+    display: block;
+    position: absolute;
+    top: 48px;
+    left: 191px;
+    width: 36px;
+    height: 42px;
+    text-indent: -9999px;
+    background-image: url(../img/ico_service.png);
+}
+
+#service-2017 .slogen .fore2 i {
+    left: 448px;
+    background-position: 0 -43px;
+}
+
+#service-2017 .slogen .fore3 i {
+    left: 694px;
+    background-position: 0 -86px;
+}
+
+#service-2017 .slogen .fore4 i {
+    left: 947px;
+    background-position: 0 -129px;
+}
+
+.w {
+    width: 1000px;
+    margin: 24px auto;
+    height: 90px;
+    /*position: relative;
+    left: 180px;*/
+    border: 0px solid black;
+}
+
+.container {
+    width: 1000px;
+    height: 550px;
+}
+
+.title {
+    margin-top: 30px;
+    text-align: center;
+    font-family: '宋体';
+    position: relative;
+    left: 65px;
+}
+
+.row {
+    width: 600px;
+    height: 450px;
+    float: right;
+    margin-top: 8px;
+    position: relative;
+    text-align: center;
+    right: 50px;
+}
+
+.form-control {
+    width: 250px;
+    margin-bottom: 35px;
+}
+
+.meun {
+    width: 150px;
+    height: 448px;
+    position: relative;
+    left: 75px;
+    top: 0px;
+    font-size: 18px;
+    border: 1px solid black;
+}

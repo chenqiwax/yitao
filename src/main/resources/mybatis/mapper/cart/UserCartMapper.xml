@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.cart.dao.CartDao">
+
+    <resultMap id="userCartMap" type="userCart">
+        <id property="id" column="r_id"/>
+        <result property="uid" column="r_uid"/>
+        <result property="gid" column="r_gid"/>
+        <result property="quantity" column="r_quantity"/>
+        <result property="isdelete" column="isdelete"/>
+    </resultMap>
+
+    <resultMap id="myCartMap" type="myCart">
+        <id property="id" column="r_id"/>
+        <result property="uid" column="r_uid"/>
+        <result property="gid" column="r_gid"/>
+        <result property="quantity" column="r_quantity"/>
+        <result property="isdelete" column="isdelete"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="imgurl" column="g_imgurl"/>
+        <result property="press" column="g_press"/>
+        <result property="author" column="g_author"/>
+        <result property="desc" column="g_desc"/>
+        <result property="stock" column="g_stock"/>
+    </resultMap>
+
+    <!-- 新增用户购物车 -->
+    <insert id="addCart" parameterType="userCart">
+    INSERT INTO tb_cartitem (r_id,r_uid,r_gid,r_quantity,isdelete)
+    VALUES(#{id},#{uid},#{gid},#{quantity},#{isdelete})
+</insert>
+
+    <!-- 查询用户购物车-->
+    <select id="getUserCart" parameterType="java.lang.String" resultMap="userCartMap">
+    SELECT * FROM tb_cartitem WHERE r_uid = #{uid} AND  isdelete =0;
+</select>
+
+    <!-- 更新用户购物车-->
+    <update id="updateCart" parameterType="userCart">
+      UPDATE tb_cartitem SET r_quantity = #{quantity}  WHERE r_id = #{id};
+    </update>
+
+    <select id="getListMyCart" resultMap="myCartMap">
+    SELECT * FROM tb_cartitem AS c JOIN tb_goods AS g ON c.r_gid = g.g_id WHERE c.r_uid = #{uid} AND c.isdelete = 0 AND g.isdelete = 0
+</select>
+
+    <update id="delCart" parameterType="Integer">
+      UPDATE tb_cartitem SET isdelete = 1 WHERE r_id = #{id}
+    </update>
+
+    <select id="getListCartBook" parameterType="Integer" resultMap="myCartMap">
+       SELECT c.*,g.* FROM tb_cartitem c JOIN tb_goods g ON c.r_gid=g.g_id WHERE c.r_id = #{rid} AND c.isdelete = 0 AND g.isdelete = 0
+    </select>
+
+    <update id="updatecount">
+       UPDATE tb_cartitem SET r_quantity = #{quantity} WHERE r_gid = ${gid}
+    </update>
+</mapper>

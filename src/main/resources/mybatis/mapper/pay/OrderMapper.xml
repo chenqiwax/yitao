@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.pay.dao.OrderDao">
+    <resultMap id="orderMap" type="order">
+        <id property="id" column="o_id"/>
+        <result property="time" column="o_time"/>
+        <result property="totalprice" column="o_totalprice"/>
+        <result property="status" column="o_status"/>
+        <result property="aid" column="o_aid"/>
+        <result property="uid" column="o_uid"/>
+        <result property="serialnumber" column="o_serialnumber"/>
+        <collection property="orderitemList" column="o_id" select="cn.et.yitao.pay.dao.OrderitemDao.getListOrderitemByoid"/>
+    </resultMap>
+
+
+    <insert id="orderAdd">
+        INSERT  INTO tb_order (o_time,o_totalprice,o_status,o_aid,o_uid,o_serialnumber)
+        VALUES (#{time},#{totalprice},#{status},#{aid},#{uid},#{serialnumber})
+    </insert>
+
+    <!--通用修改-->
+    <update id="updateOrderStatus">
+        UPDATE   tb_order
+        <set>
+            <if test="time!=null">
+                o_time=#{time},
+            </if>
+            <if test="totalprice!=null">
+                o_totalprice=#{totalprice},
+            </if>
+            <if test="status!=null">
+                o_status=#{status},
+            </if>
+            <if test="aid!=null">
+                o_aid=#{aid},
+            </if>
+            <if test="uid!=null">
+                o_uid=#{uid},
+            </if>
+            <if test="serialnumber!=null">
+                o_serialnumber=#{serialnumber},
+            </if>
+        </set>
+        WHERE o_id=#{id}
+    </update>
+
+    <!--通用查询-->
+    <select id="getListOrder" resultMap="orderMap">
+        SELECT
+          *
+        FROM
+        tb_order
+        <where>
+            <if test="id!=null">
+                AND o_id=#{id}
+            </if>
+            <if test="time!=null">
+                AND o_time=#{time}
+            </if>
+            <if test="totalprice!=null">
+                AND o_totalprice=#{totalprice}
+            </if>
+            <if test="status!=null">
+                AND o_status=#{status}
+            </if>
+            <if test="aid!=null">
+                AND o_aid=#{aid}
+            </if>
+            <if test="uid!=null">
+                AND o_uid=#{uid}
+            </if>
+            <if test="serialnumber!=null">
+                AND o_serialnumber=#{serialnumber}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

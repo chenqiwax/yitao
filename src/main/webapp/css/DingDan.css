@@ -1,0 +1,92 @@
+		a {
+			text-decoration: none;
+			color: black;
+		}
+		
+		.div1 {
+			height: 40px;
+		}
+		
+		.div2 {
+			height: 115px;
+			background-image: url(../img/2.png);
+			background-size: 100% 100%;
+			color: white;
+		}
+		
+		.div3 {
+			padding-left: 30px;
+		}
+		
+		.div4 {
+			margin-top: 20px;
+			padding-left: 30px;
+		}
+		
+		.div5 {
+			margin-top: 30px;
+			width: 100%;
+			border-top: 1px solid #E5DEDE;
+		}
+		
+		.div6 {
+			margin-top: 40px;
+			text-align: right;
+			background-color: #F5F5F5;
+			height: 40px;
+		}
+		
+		.i1 {
+			font-size: 25px;
+		}
+		
+		.i2 {
+			font-size: 20px;
+			font-family: "微软雅黑";
+			font-weight: 600;
+		}
+		
+		.a1 {
+			color: black;
+			padding-left: 30px;
+		}
+		
+		.a2 {
+			color: orangered;
+			padding-left: 50px;
+		}
+		
+		.p1 {
+			padding-left: 70px;
+		}
+		
+		.td1 {
+			width: 1150px;
+			text-align: right;
+		}
+		
+		.td2 {
+			text-align: right;
+		}
+		
+		.bt1 {
+			width: 150px;
+			height: 40px;
+			border-radius: 50px;
+			background-color: dodgerblue;
+		}
+		
+		#p2 {
+			padding-top: 30px;
+		}
+		
+		#table1 {
+			width: 100%;
+			background-color: #F5F5F5;
+		}
+		
+		#table2 {
+			width: 100%;
+			border-top: 1px;
+			border-top-color: red;
+		}

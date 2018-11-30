@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<title>添加分类</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="assets/css/layui.css" media="all">
+	</head>
+
+	<body>
+		<div class="layui-page-header">
+			<div class="pagewrap">
+				<span class="layui-breadcrumb">
+                  <a href="">网站内容管理</a>
+                   <a href="">内容分类管理</a>
+                  <a><cite>添加分类</cite></a>
+               </span>
+			</div>
+		</div>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>添加分类</legend>
+		</fieldset>
+		<div class="layui-container">
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-md3">
+					<div class="grid-demo grid-demo-bg1" style="float: right;">
+						<ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
+							<li class="layui-nav-item">
+								<a href="javascript:;">请选择父分类</a>
+								<dl class="layui-nav-child">
+									<li class="layui-nav-item">
+										<a href="javascript:;">励志成功</a>
+										<!--<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">人在职场</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">名人励志</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">演讲与口才</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">自我完善</a>
+											</dd>
+										</dl>-->
+									</li>
+									<li class="layui-nav-item">
+										<a href="javascript:;">心理学</a>
+										<!--<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">人格心理学</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">儿童或青少年心理学</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">应用心理学</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">心理学咨询</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">心理百科</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">社会心理学</a>
+											</dd>
+										</dl>-->
+									</li>
+									<li class="layui-nav-item">
+										<a href="javascript:;">政治军事</a>
+										<!--<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">世界政治</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">中国军事</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">中国政治</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">党政读物</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">政治理论</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">世界军事</a>
+											</dd>
+										</dl>-->
+									</li>
+									<li class="layui-nav-item">
+										<a href="javascript:;">文学</a>
+										<!--<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">中国文学</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">作品集</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">文学史</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">文学理论</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">纪实文学</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">名家作品</a>
+											</dd>
+										</dl>-->
+									</li>
+									<li class="layui-nav-item">
+										<a href="javascript:;">心理学</a>
+									<!--	<dl class="layui-nav-child">
+											<dd>
+												<a href="javascript:;">人格心理学</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">儿童或青少年心理学</a>
+											</dd>
+											<dd>
+												<a href="javascript:;">应用心理学</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">心理学咨询</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">心理百科</a>
+											</dd>
+											<dd>
+												<a href="avascript:;">社会心理学</a>
+											</dd>
+										</dl>-->
+									</li>
+								</dl>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-md8">
+					<div class="grid-demo">
+						<form class="layui-form" action="">
+							<div class="layui-form-item">
+								<input type="hidden" lay-verify="parent_calss" id="parent_value" value="" name="parent" />
+								<label class="layui-form-label">分类名:</label>
+								<div class="layui-inline">
+									<input type="text" name="title" id="secondCategory" lay-verify="title" required lay-verify="required" autocomplete="off" placeholder="请输入分类名" class="layui-input">
+								</div>
+								<button class="layui-btn" lay-submit lay-filter="demo1">立即添加</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="assets/layui.all.js"></script>
+	<script>
+		layui.use('element', function() {
+			var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+			//监听导航点击
+			element.on('nav(demo)', function(elem) {
+				console.log(elem)
+				/*	layer.msg(elem.text());*/
+				$("#parent_value").val(elem.text());
+			});
+		});
+	</script>
+	<script>
+		//Demo
+		layui.use('form', function() {
+			var form = layui.form;
+
+			//自定义验证规则
+			form.verify({
+				title: function(value) {
+					if(value.length < 5) {
+						return '标题至少得5个字符啊';
+					}
+					if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+						return '用户名不能有特殊字符';
+					}
+					if(/(^\_)|(\__)|(\_+$)/.test(value)) {
+						return '用户名首尾不能出现下划线\'_\'';
+					}
+					if(/^\d+\d+\d$/.test(value)) {
+						return '用户名不能全为数字';
+					}
+				},
+				parent_calss: function(value) {
+					if(value.length <= 0) {
+						return '请选择分类';
+					}
+				},
+				content: function(value) {
+					layedit.sync(editIndex);
+				}
+			});
+			//监听提交
+			form.on('submit(demo1)', function(data) {
+				layer.msg(JSON.stringify(data.field));
+				return true;
+			});
+		});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#publication_time' //指定元素
+			});
+		});
+	</script>
+
+</html>

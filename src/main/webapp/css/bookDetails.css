@@ -1,0 +1,61 @@
+.gobuy {
+	overflow: hidden;
+	float: left;
+	width: 140px;
+	height: 50px;
+	border-radius: 2px;
+	background-color: #DF3033;
+	color: #FAFFFF;
+	cursor: pointer;
+	padding-top: 15px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.gobuys {
+	overflow: hidden;
+	float: left;
+	width: 140px;
+	height: 50px;
+	border-radius: 2px;
+	background-color: #DF3033;
+	color: #FAFFFF;
+	cursor: pointer;
+	padding-top: 15px;
+	margin-left: 505px;
+	margin-top: -50px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.gocar {
+	overflow: hidden;
+	float: left;
+	width: 140px;
+	height: 50px;
+	border-radius: 2px;
+	background-color: #DF3033;
+	color: #FAFFFF;
+	cursor: pointer;
+	margin-left: 260px;
+	padding-top: 15px;
+	margin-top: -50px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.increase {
+	width: 200px;
+	height: 30px;
+	margin-top: 30px;
+	margin-left: 205px;
+}
+.i{
+	margin-top: 6px;
+	padding: 2px;
+	height: 15px;
+	line-height: 16px;
+	font-size: 22px;
+	background: #bf7f5f;
+	color: #fff;
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--shiro过滤器工厂对象,该id必须和web.xml中的filter名字一致-->
+    <!--<bean id="myFilter" class="cn.et.yitao.util.shiro.filter.MyFilter"/>-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--安全管理对象-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录页面(访问资源,发现需要验证就跳转到该页面)-->
+        <property name="loginUrl" value="/login.do"/>
+        <!--登录成功转发到该页面-->
+        <property name="successUrl" value="/index.do"/>
+        <!--没有权限访问就转发到该页面-->
+        <property name="unauthorizedUrl" value="/404.html"/>
+        <!--配置shiro内置过滤-->
+        <property name="filters">
+            <util:map>
+                <entry key="myFilter" value-ref="myFilter"/>
+            </util:map>
+        </property>
+        <!--配置shiro内置过滤-->
+        <property name="filterChainDefinitions" value="/** = myFilter"/>
+    </bean>
+    <bean id="userRealm" class="cn.et.yitao.util.shiro.realm.UserRealm"/>
+    <bean id="telphoneRealm" class="cn.et.yitao.util.shiro.realm.TelphoneRealm"/>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--多realm的配置-->
+        <property name="authenticator" ref="myModularRealmAuthenticator"/>
+        <property name="realms">
+            <list>
+                <ref bean="userRealm"/>
+                <ref bean="telphoneRealm"/>
+            </list>
+        </property>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+    <bean id="myModularRealmAuthenticator" class="cn.et.yitao.util.shiro.realm.MyModularRealmAuthenticator">
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
+        </property>
+    </bean>
+    <!--sessionIdCookie：maxAge=-1 表示浏览器关闭时失效此 Cookie；-->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    <!--rememberMeCookie：即记住我的 Cookie，保存时长 30 天；-->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/>
+    </bean>
+    <!--rememberMe 管理器，cipherKey 是加密 rememberMe Cookie 的密钥；默认 AES 算法；-->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="\#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+    <!--shiro生命周期管理器,注册该Bean会导致Spring的启动和停止都会调用对应的生命周期方法-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

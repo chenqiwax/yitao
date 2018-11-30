@@ -1,0 +1,40 @@
+#service-2017 .slogen .item i {
+	display: block;
+	position: absolute;
+	top: 48px;
+	left: 240px;;
+	width: 36px;
+	height: 42px;
+	text-indent: -9999px;
+	background-image:url(../img/ico_service.png);
+}
+
+#service-2017 .slogen .fore2 i {
+	left: 489px;
+	background-position: 0 -43px;
+}
+
+#service-2017 .slogen .fore3 i {
+	left: 737px;
+	background-position: 0 -86px;
+}
+
+#service-2017 .slogen .fore4 i {
+	left: 991px;
+	background-position: 0 -129px;
+}
+.meun{
+	width: 150px;
+	height: 448px;
+	position: relative;
+	left: 75px;
+	top: 0px;
+	font-size: 18px;
+	border: 1px solid black;
+}
+.w {
+	width: 1000px;
+	margin: 24px auto;
+	height: 90px;
+	border: 0px solid black;
+}

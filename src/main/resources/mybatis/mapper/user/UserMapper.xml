@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.et.yitao.user.dao.UserDao">
+    <resultMap id="userMap" type="user">
+        <id property="id" column="u_id"/>
+        <result property="account" column="u_account"/>
+        <result property="password" column="u_password"/>
+        <result property="telephone" column="u_telephone"/>
+        <result property="email" column="u_email"/>
+        <result property="sex" column="u_sex"/>
+        <result property="nickname" column="u_nickname"/>
+        <result property="registerDate" column="u_registerdate"/>
+        <result property="salt" column="u_salt"/>
+        <result property="birthday" column="u_birthday"/>
+        <result property="iconUrl" column="u_iconurl"/>
+        <result property="isdelete" column="isdelete"/>
+    </resultMap>
+
+    <resultMap id="roleMap" type="role">
+        <id property="id" column="e_id"/>
+        <result property="name" column="e_name"/>
+        <result property="bun" column="e_bun"/>
+        <result property="desc" column="e_desc"/>
+        <result property="isDelete" column="isdelete"/>
+    </resultMap>
+    <resultMap id="userPermissionMap" type="userPermission">
+        <id property="id" column="s_id"/>
+        <result property="name" column="s_name"/>
+        <result property="logo" column="s_logo"/>
+        <result property="desc" column="s_desc"/>
+        <result property="url" column="s_url"/>
+        <result property="type" column="s_type"/>
+        <result property="bun" column="s_bun"/>
+        <result property="menu" column="s_menu"/>
+    </resultMap>
+    <sql id="allColumn">u.u_id,u.u_account, u.u_password,u.u_password,u.u_telephone,u.u_email,u.u_sex,u.u_nickname, u.u_registerdate,u.u_salt,u.u_birthday,u.u_iconurl,u.isdelete</sql>
+    <!-- 新增用户 -->
+    <insert id="addUser" parameterType="cn.et.yitao.user.bean.User">
+        INSERT INTO tb_user (u_id, u_account, u_password, u_telephone, u_registerdate, u_salt,u_iconurl) VALUES
+            (#{id}, #{account}, #{password}, #{telephone}, #{registerDate}, #{salt},#{iconUrl})
+    </insert>
+    <!-- 根据用户名查询用户 -->
+    <select id="findUserByAccount" parameterType="java.lang.String" resultMap="userMap">
+        SELECT *
+        FROM tb_user
+        WHERE u_account = #{account}
+    </select>
+    <!-- 修改用户头像 -->
+    <update id="uploadUserPicture" parameterType="cn.et.yitao.user.bean.User">
+        UPDATE tb_user
+        SET u_iconurl = #{iconUrl}
+        WHERE u_id = #{id}
+    </update>
+
+    <!-- 根据id查询用户个人基本信息-->
+    <select id="findUserByUserId" parameterType="String" resultMap="userMap">
+        SELECT
+        <include refid="allColumn" />
+        FROM tb_user u
+        WHERE u.u_id = #{id}
+    </select>
+
+    <!-- 根据用户id修改用户个人基本信息-->
+    <update id="updateUser">
+        UPDATE tb_user
+        <set>
+            <if test="account!=null">
+                u_account=#{account},
+            </if>
+            <if test="password!=null">
+                u_password=#{password},
+            </if>
+            <if test="telephone!=null">
+                u_telephone=#{telephone},
+            </if>
+            <if test="sex!=null">
+                u_sex=#{sex},
+            </if>
+            <if test="nickname!=null">
+                u_nickname=#{nickname},
+            </if>
+            <if test="birthday!=null">
+                u_birthday=#{birthday},
+            </if>
+            <if test="email!=null">
+                u_email=#{email},
+            </if>
+            <if test="iconUrl!=null">
+                u_iconurl=#{iconUrl},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+            <if test="salt!=null">
+                u_salt=#{salt},
+            </if>
+        </set>
+        WHERE u_id=#{id}
+    </update>
+
+    <!-- 查询用户注册的手机号  libinhe-->
+    <select id="inspection" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT u_telephone
+        FROM tb_user
+        WHERE u_telephone = #{phone};
+    </select>
+
+    <!--通用用户查询语句  chenqi-->
+    <select id="getUserList" resultMap="userMap">
+        SELECT
+        <include refid="allColumn" />
+            FROM tb_user u
+        <where>
+            <if test="id!=null">
+                AND u_id=#{id}
+            </if>
+            <if test="account!=null">
+                AND u_account=#{account}
+            </if>
+            <if test="password!=null">
+                AND u_password=#{password}
+            </if>
+            <if test="telephone!=null">
+                AND u_telephone=#{telephone}
+            </if>
+            <if test="email!=null">
+                AND u_email=#{email}
+            </if>
+            <if test="sex!=null">
+                AND u_sex=#{sex}
+            </if>
+            <if test="nickname!=null">
+                AND u_nickname=#{nickname}
+            </if>
+            <if test="registerDate!=null">
+                AND u_registerdate=#{registerDate}
+            </if>
+            <if test="salt!=null">
+                AND u_salt=#{salt}
+            </if>
+            <if test="birthday!=null">
+                AND u_birthday=#{birthday}
+            </if>
+            <if test="iconUrl!=null">
+                AND u_iconurl=#{iconUrl}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete=#{isdelete}
+            </if>
+        </where>
+    </select>
+    <!--通用用户查询语句  chenqi-->
+    <select id="getDimUserList" resultMap="userMap">
+        SELECT
+        u.u_id,
+        u.u_account,
+        u.u_password,
+        u.u_password,
+        u.u_telephone,
+        u.u_email,
+        u.u_sex,
+        u.u_nickname,
+        u.u_registerdate,
+        u.u_salt,
+        u.u_birthday,
+        u.u_iconurl,
+        u.isdelete
+        FROM tb_user u
+        <where>
+            <if test="id!=null">
+                AND u_id LIKE #{id}
+            </if>
+            <if test="account!=null">
+                AND u_account LIKE #{account}
+            </if>
+            <if test="password!=null">
+                AND u_password LIKE #{password}
+            </if>
+            <if test="telephone!=null">
+                AND u_telephone LIKE #{telephone}
+            </if>
+            <if test="email!=null">
+                AND u_email LIKE #{email}
+            </if>
+            <if test="sex!=null">
+                AND u_sex LIKE #{sex}
+            </if>
+            <if test="nickname!=null">
+                AND u_nickname LIKE #{nickname}
+            </if>
+            <if test="registerDate!=null">
+                AND u_registerdate LIKE #{registerDate}
+            </if>
+            <if test="salt!=null">
+                AND u_salt LIKE #{salt}
+            </if>
+            <if test="birthday!=null">
+                AND u_birthday LIKE #{birthday}
+            </if>
+            <if test="iconUrl!=null">
+                AND u_iconurl LIKE #{iconUrl}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete LIKE #{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <!--根据手机号查询用户id libinhe -->
+    <select id="selectuid" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT u_id
+        FROM tb_user
+        WHERE u_telephone = #{phone};
+    </select>
+
+    <!--根据用户输入的手机号或者邮箱查询用户id libinhe -->
+    <select id="verify" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT * FROM tb_user u WHERE u.u_telephone=#{name} OR u.u_email=#{name}
+    </select>
+
+
+    <!--根据手机号查询用户id libinhe -->
+    <select id="getuid" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT u_id
+        FROM tb_user
+        WHERE u_email = #{emil};
+    </select>
+
+    <select id="getRoleByAccount" resultMap="roleMap">
+        SELECT
+            r.e_id,
+            r.e_bun,
+            r.e_desc,
+            r.e_name
+        FROM tb_user u
+            INNER JOIN tb_user_role l ON u.u_account = #{0} AND u.u_id = l.u_id
+            INNER JOIN tb_role r ON  l.e_id = r.e_id AND r.isdelete=0
+    </select>
+
+    <select id="getRoleByTel" resultMap="roleMap">
+        SELECT
+        r.e_id,
+        r.e_bun,
+        r.e_desc,
+        r.e_name
+        FROM tb_user u
+        INNER JOIN tb_user_role l ON u.u_telephone = #{0} AND u.u_id = l.u_id
+        INNER JOIN tb_role r ON  l.e_id = r.e_id AND r.isdelete=0
+    </select>
+    <select id="getPermissionByAccount" resultMap="userPermissionMap">
+        SELECT
+            p.s_id,
+            p.s_bun,
+            p.s_desc,
+            p.s_logo,
+            p.s_menu,
+            p.s_name,
+            p.s_type,
+            p.s_url
+        FROM tb_user u
+            INNER JOIN tb_user_role l ON u.u_account = #{0} AND u.u_id = l.u_id
+            INNER JOIN tb_role r ON l.e_id = r.e_id
+            INNER JOIN tb_role_permission s ON r.e_id = s.e_id
+            INNER JOIN tb_permission p ON s.s_id = p.s_id
+    </select>
+    <select id="getPermissionByTel" resultMap="userPermissionMap">
+        SELECT
+        p.s_id,
+        p.s_bun,
+        p.s_desc,
+        p.s_logo,
+        p.s_menu,
+        p.s_name,
+        p.s_type,
+        p.s_url
+        FROM tb_user u
+        INNER JOIN tb_user_role l ON u.u_telephone = #{0} AND u.u_id = l.u_id
+        INNER JOIN tb_role r ON l.e_id = r.e_id
+        INNER JOIN tb_role_permission s ON r.e_id = s.e_id
+        INNER JOIN tb_permission p ON s.s_id = p.s_id
+    </select>
+</mapper>

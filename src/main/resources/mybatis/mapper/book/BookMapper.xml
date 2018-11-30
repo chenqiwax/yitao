@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.yitao.book.dao.BookDao">
+    <resultMap id="bookMap" type="book">
+        <id property="id" column="g_id"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="imgurl" column="g_imgurl"/>
+        <result property="author" column="g_author"/>
+        <result property="press" column="g_press"/>
+        <result property="sales" column="g_sales"/>
+        <result property="stock" column="g_stock"/>
+        <result property="lid" column="g_lid"/>
+        <result property="publishDate" column="g_publishDate"/>
+        <result property="pageNum" column="g_pageNum"/>
+        <result property="wordsNum" column="g_wordsNum"/>
+        <result property="paper" column="g_paper"/>
+        <result property="details" column="g_details"/>
+        <result property="desc" column="g_desc"/>
+        <result property="isdelete" column="isdelete"/>
+
+        <association property="bookCategory" column="g_lid"
+                     select="cn.et.yitao.book.dao.BookCategoryDao.findBookCategoryById"/>
+    </resultMap>
+    <resultMap id="myCart" type="myCart">
+        <id property="gid" column="g_id"/>
+        <result property="name" column="g_name"/>
+        <result property="price" column="g_price"/>
+        <result property="imgurl" column="g_imgurl"/>
+        <result property="author" column="g_author"/>
+        <result property="press" column="g_press"/>
+        <result property="desc" column="g_desc"/>
+        <result property="stock" column="g_stock"/>
+        <result property="isdelete" column="isdelete"/>
+    </resultMap>
+    
+    <resultMap id="bookSerchMap" type="bookSerch">
+        <result property="id" column="g_id"/>
+        <result property="bookName" column="g_name"/>
+        <result property="desc" column="g_desc"/>
+        <result property="bookAuthor" column="g_author"/>
+        <result property="price" column="g_price"/>
+        <result property="imgurl" column="g_imgurl"/>
+        <result property="catName" column="l_name"/>
+    </resultMap>
+    <select id="bookByIdOrder" resultMap="myCart">
+        SELECT * FROM tb_goods WHERE g_id = #{gid} AND isdelete = 0;
+    </select>
+
+    <sql id="allColoum">
+        g_id,g_name,g_price,g_imgurl,g_author,g_press,g_sales,g_stock,g_lid,g_publishDate,g_pageNum,g_wordsNum,g_paper,g_details,g_desc,isdelete
+    </sql>
+    <!-- 根据ID查询商品 -->
+    <select id="findBookById" resultMap="bookMap">
+        SELECT
+        <include refid="allColoum"/>
+        FROM tb_goods g WHERE g.isdelete=0 AND g_id = #{0}
+    </select>
+    <insert id="addBook">
+        INSERT INTO tb_goods (g_name, g_price, g_imgurl, g_author, g_press, g_lid, g_stock, g_publishDate, g_pageNum, g_wordsNum, g_paper, g_desc, g_details)
+        VALUES
+        (#{name}, #{price}, #{imgurl}, #{author}, #{press},#{lid}, #{stock}, #{publishDate}, #{pageNum},#{wordsNum},#{paper}, #{desc}, #{details})
+    </insert>
+    <select id="getListBook" resultMap="bookMap">
+        SELECT
+        <include refid="allColoum"/>
+        FROM tb_goods
+        <where>
+            <if test="id!=null and id!=''">
+                AND g_id=#{id}
+            </if>
+            <if test="name!=null and name!=''">
+                AND g_name=#{name}
+            </if>
+            <if test="price!=null">
+                AND g_price=#{price}
+            </if>
+            <if test="imgurl!=null and imgurl!=''">
+                AND g_imgurl=#{imgurl}
+            </if>
+            <if test="author!=null and author!=''">
+                AND g_author=#{author}
+            </if>
+            <if test="press!=null and press!=''">
+                AND g_press=#{press}
+            </if>
+            <if test="sales!=null">
+                AND g_sales=#{sales}
+            </if>
+            <if test="stock!=null">
+                AND g_stock=#{stock}
+            </if>
+            <if test="lid!=null">
+                AND g_lid=#{lid}
+            </if>
+            <if test="publishDate!=null">
+                AND g_publishDate=#{publishDate}
+            </if>
+            <if test="pageNum!=null">
+                AND g_pageNum=#{pageNum}
+            </if>
+            <if test="wordsNum!=null">
+                AND g_wordsNum=#{wordsNum}
+            </if>
+            <if test="paper!=null and paper!=''">
+                AND g_paper=#{paper}
+            </if>
+            <if test="details!=null and details!=''">
+                AND g_details=#{details}
+            </if>
+            <if test="desc!=null and desc!=''">
+                AND g_desc=#{desc}
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete=#{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <select id="getListDimBook" resultMap="bookMap">
+        SELECT
+        <include refid="allColoum"/>
+        FROM tb_goods
+        <where>
+            <if test="id!=null">
+                AND g_id=#{id}
+            </if>
+            <if test="price!=null">
+                AND g_price=#{price}
+            </if>
+            <if test="name!=null and name!=''">
+                AND g_name LIKE '%${name}%'
+            </if>
+            <if test="imgurl!=null and imgurl!=''">
+                AND g_imgurl LIKE '%${imgurl}%'
+            </if>
+            <if test="author!=null and author!=''">
+                AND g_author LIKE '%${author}%'
+            </if>
+            <if test="press!=null and press!=''">
+                AND g_press LIKE '%${press}%'
+            </if>
+            <if test="sales!=null">
+                AND g_sales=#{sales}
+            </if>
+            <if test="stock!=null">
+                AND g_stock=#{stock}
+            </if>
+            <if test="lid!=null">
+                AND g_lid=#{lid}
+            </if>
+            <if test="publishDate!=null">
+                AND g_publishDate=#{publishDate}
+            </if>
+            <if test="pageNum!=null">
+                AND g_pageNum=#{pageNum}
+            </if>
+            <if test="wordsNum!=null">
+                g_wordsNum=#{wordsNum}
+            </if>
+            <if test="paper!=null and paper!=''">
+                AND g_paper LIKE '%${paper}%'
+            </if>
+            <if test="details!=null and details!=''">
+                AND g_details LIKE '%${details}%'
+            </if>
+            <if test="desc!=null and desc!=''">
+                AND g_desc LIKE '%${desc}%'
+            </if>
+            <if test="isdelete!=null">
+                AND isdelete = #{isdelete}
+            </if>
+        </where>
+    </select>
+    
+    <select id="getListAllBook" resultMap="bookSerchMap">
+        SELECT
+            g.g_id,
+            g.g_name,
+            g.g_author,
+            g.g_imgurl,
+            g.g_price,
+            g.g_desc,
+            c.l_name
+        FROM
+            tb_goods g
+            LEFT JOIN tb_category c ON g.g_lid = c.l_id AND g.isdelete=0
+    </select>
+    <select id="getListBookByKeywords" resultMap="bookMap">
+        SELECT
+        <include refid="allColoum"/>
+        FROM tb_goods
+        <where>
+            <if test="keyword!=null">
+                OR g_name LIKE '%${keyword}%'
+                OR g_author LIKE '%${keyword}%'
+                OR g_press LIKE '%${keyword}%'
+                OR g_paper LIKE '%${keyword}%'
+                OR g_details LIKE '%${keyword}%'
+                OR g_desc LIKE '%${keyword}%'
+            </if>
+        </where>
+        AND isdelete=0
+    </select>
+
+    <update id="updateBook">
+        UPDATE tb_goods
+        <set>
+            <if test="name!=null">
+                g_name=#{name},
+            </if>
+            <if test="price!=null">
+                g_price=#{price},
+            </if>
+            <if test="imgurl!=null">
+                g_imgurl=#{imgurl},
+            </if>
+            <if test="author!=null">
+                g_author=#{author},
+            </if>
+            <if test="press!=null">
+                g_press=#{press},
+            </if>
+            <if test="sales!=null">
+                g_sales=#{sales},
+            </if>
+            <if test="stock!=null">
+                g_stock=#{stock},
+            </if>
+            <if test="lid!=null">
+                g_lid=#{lid},
+            </if>
+            <if test="publishDate!=null">
+                g_publishDate=#{publishDate},
+            </if>
+            <if test="pageNum!=null">
+                g_pageNum=#{pageNum},
+            </if>
+            <if test="wordsNum!=null">
+                g_wordsNum=#{wordsNum},
+            </if>
+            <if test="paper!=null">
+                g_paper=#{paper},
+            </if>
+            <if test="details!=null">
+                g_details=#{details},
+            </if>
+            <if test="desc!=null">
+                g_desc=#{desc},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+        </set>
+        WHERE g_id=#{id}
+    </update>
+</mapper>
